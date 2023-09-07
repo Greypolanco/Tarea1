@@ -96,4 +96,10 @@ dependencies {
 
     //navegacion
     implementation("androidx.navigation:navigation-compose:2.6.0")
+
+    //ViewModel
+    val lifeCycleVersion = "2.6.1"
+
+    // Para poder usar collectAsStateWithLifeCycle
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifeCycleVersion")
 }

@@ -5,7 +5,7 @@ import com.example.firstaplicacion.data.local.entity.Usuario
 import javax.inject.Inject
 
 class UsuarioRepository @Inject constructor(
-    private val dataBase: DataBase
+    public val dataBase: DataBase
 ) {
     suspend fun save(user: Usuario)=
         dataBase.userdao.save(user)
