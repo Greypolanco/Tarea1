@@ -8,7 +8,7 @@ import com.example.firstaplicacion.data.local.entity.Usuario
 @Database(
     entities = [Usuario::class],
     exportSchema = false,
-    version = 1
+    version = 2
 )
 abstract class DataBase: RoomDatabase()  {
     abstract val userdao: UsuarioDao

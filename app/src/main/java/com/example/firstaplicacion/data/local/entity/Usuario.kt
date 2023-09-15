@@ -8,5 +8,11 @@ import androidx.room.PrimaryKey
 data class Usuario(
     @PrimaryKey(autoGenerate = true)
     val id : Int =0,
-    val nombre : String
+    val nombre : String ="",
+    val telefono : String ="",
+    val celular : String ="",
+    val email : String ="",
+    val direccion : String ="",
+    val fecha : String = "",
+    val ocupacion : String =""
 )
