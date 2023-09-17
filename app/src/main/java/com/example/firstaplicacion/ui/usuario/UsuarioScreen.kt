@@ -1,5 +1,7 @@
 package com.example.firstaplicacion.ui.usuario
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -39,8 +42,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.toSize
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -111,11 +119,34 @@ fun UsuarioScreen(viewModel: UsuarioViewModel = hiltViewModel()) {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
+        //Calendario
+        val calendar: Calendar = Calendar.getInstance()
+        val year: Int = calendar.get(Calendar.YEAR)
+        val month: Int = (calendar.get(Calendar.MONTH))
+        val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+        calendar.time = Date()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        val date = remember { mutableStateOf("") }
+        val datePickerDialog = DatePickerDialog(
+            LocalContext.current,
+            { _: DatePicker, yearPicked: Int, monthPicked: Int, dayOfMonth: Int ->
+                date.value = "$dayOfMonth/${monthPicked + 1}/$yearPicked"
+                viewModel.fecha = date.value
+            }, year, month, day
+        )
+
         OutlinedTextField(
             value = viewModel.fecha,
-            onValueChange = {viewModel.fecha = it},
+            onValueChange = {  viewModel.fecha = it},
             label = { Text(text = "Fecha")},
-            leadingIcon ={ Icon(imageVector = Icons.Filled.DateRange, contentDescription = "fechaIcon")},
+            leadingIcon ={
+                IconButton(
+                    onClick = { datePickerDialog.show() }
+                ) {
+                    Icon(imageVector = Icons.Filled.DateRange, contentDescription = "fechaIcon")
+                }
+                         },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
